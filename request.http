@@ -1,0 +1,9 @@
+###Signup a user
+POST http://localhost:3000/supabase/
+content-type: application/json
+
+{
+    "email": "bhavanishankar6917@gmail.com",
+    "password": "Kenmiles1234@",
+    "phone": "9566077299"
+}
