@@ -20,27 +20,85 @@ let SupabaseController = class SupabaseController {
     constructor(supabaseService) {
         this.supabaseService = supabaseService;
     }
-    async sayHelloWorld(body) {
-        let { data, error } = await this.supabaseService.supabase.auth.signUp({ email: body.email, password: body.password, phone: body.phone });
+    async signInWithPhoneOrEmailAndPassword(body, req, res) {
+        let { data, error } = await this.supabaseService
+            .createServerClient({ req, res })
+            .auth.signInWithPassword({
+            email: body.email,
+            password: body.password,
+            phone: body.phone,
+        });
         if (data) {
-            console.log(data);
+            res.status(common_1.HttpStatus.CREATED).send(data);
+            return res;
+        }
+        if (error) {
+            res.status(common_1.HttpStatus.BAD_REQUEST).send(error);
+            return error;
+        }
+    }
+    async getSession(req, res) {
+        let { data, error } = await this.supabaseService
+            .createServerClient({ req, res })
+            .auth.getSession();
+        if (data) {
+            res.status(common_1.HttpStatus.ACCEPTED).send(data);
             return data;
         }
         if (error) {
+            res.status(common_1.HttpStatus.NO_CONTENT).send(error);
+        }
+    }
+    async signupWithEmail(body, req, res) {
+        let { data, error } = await this.supabaseService
+            .createServerClient({ req, res })
+            .auth.signUp({
+            email: body.email,
+            password: body.password,
+            phone: body.phone,
+        });
+        if (data) {
+            res.status(common_1.HttpStatus.CREATED).send(data);
+            return res;
+        }
+        if (error) {
+            res.status(common_1.HttpStatus.BAD_REQUEST).send(error);
             return error;
         }
     }
 };
 exports.SupabaseController = SupabaseController;
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)("/signin"),
+    (0, common_1.Header)("Access-Control-Allow-Credentials", "true"),
+    (0, common_1.Header)("Access-Control-Allow-Origin", "http://localhost:4200"),
+    (0, common_1.Header)("content-type", "application/json"),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [signup_dto_1.SignupDto]),
+    __metadata("design:paramtypes", [signup_dto_1.SignupDto, Object, Object]),
     __metadata("design:returntype", Promise)
-], SupabaseController.prototype, "sayHelloWorld", null);
+], SupabaseController.prototype, "signInWithPhoneOrEmailAndPassword", null);
+__decorate([
+    (0, common_1.Get)("session"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], SupabaseController.prototype, "getSession", null);
+__decorate([
+    (0, common_1.Post)("signup"),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [signup_dto_1.SignupDto, Object, Object]),
+    __metadata("design:returntype", Promise)
+], SupabaseController.prototype, "signupWithEmail", null);
 exports.SupabaseController = SupabaseController = __decorate([
-    (0, common_1.Controller)('supabase'),
+    (0, common_1.Controller)("supabase"),
     __metadata("design:paramtypes", [supabase_service_1.SupabaseService])
 ], SupabaseController);
 //# sourceMappingURL=supabase.controller.js.map
