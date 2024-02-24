@@ -7,3 +7,6 @@ content-type: application/json
     "password": "Kenmiles1234@",
     "phone": "9566077299"
 }
+
+###Get posts of one user
+GET http://localhost:3000/posts/755edc7a-a9bc-4d9d-a573-03d4fe5fd759

@@ -1,8 +1,9 @@
 import { createServerClient, createBrowserClient } from "@supabase/ssr";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, AuthError } from "@supabase/supabase-js";
+
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import "dotenv/config";
-
+import { Request, Response } from "express";
 @Injectable()
 export class SupabaseService {
   createServerClient(context) {
@@ -22,7 +23,6 @@ export class SupabaseService {
           },
           set: (key, value, options) => {
             if (!context.res) return;
-            console.log("Cookies are set here", key, value, options);
             context.res.cookie(key, encodeURIComponent(value), {
               ...options,
               sameSite: "Lax",
@@ -44,4 +44,31 @@ export class SupabaseService {
     process.env.SUPABASE_URL,
     process.env.SUPABASE_ANON_KEY
   );
+  async uploadImageToStorage(
+    bucket: string,
+    fileName: string,
+    fileFormat: string,
+    dataAsArrayBuffer: ArrayBuffer
+  ) {
+    let { data, error } = await this.supabase.storage
+      .from(bucket)
+      .upload(`1rma4z_0/${fileName}`, dataAsArrayBuffer, {
+        contentType: `image/${fileFormat}`,
+      });
+    return { data, error };
+  }
+  async getPublicUrl(path: string) {
+    let { publicUrl } = await this.supabase.storage
+      .from("posts")
+      .getPublicUrl(path).data;
+    return publicUrl;
+  }
+  async addPost(caption: string, photo_url: string, user_id: string) {
+    let result = await this.supabase.from("posts").insert({
+      caption,
+      user_id,
+      photo_url,
+    });
+    console.log(result);
+  }
 }

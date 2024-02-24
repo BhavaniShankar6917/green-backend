@@ -14,8 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SupabaseController = void 0;
 const common_1 = require("@nestjs/common");
-const supabase_service_1 = require("./supabase.service");
 const signup_dto_1 = require("./dtos/signup-dto");
+const supabase_service_1 = require("./supabase.service");
 let SupabaseController = class SupabaseController {
     constructor(supabaseService) {
         this.supabaseService = supabaseService;

@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
-import { SupabaseService } from "./supabase.service";
 import { SignupDto } from "./dtos/signup-dto";
+import { SupabaseService } from "./supabase.service";
 export declare class SupabaseController {
     private supabaseService;
     constructor(supabaseService: SupabaseService);

@@ -10,13 +10,18 @@ exports.SupabaseModule = void 0;
 const common_1 = require("@nestjs/common");
 const supabase_service_1 = require("./supabase.service");
 const supabase_controller_1 = require("./supabase.controller");
+const posts_controller_1 = require("./posts/posts.controller");
+const comments_controller_1 = require("./comments/comments.controller");
+const likes_controller_1 = require("./likes/likes.controller");
+const people_controller_1 = require("./people/people.controller");
+const sharp_service_1 = require("./sharp/sharp.service");
 let SupabaseModule = class SupabaseModule {
 };
 exports.SupabaseModule = SupabaseModule;
 exports.SupabaseModule = SupabaseModule = __decorate([
     (0, common_1.Module)({
-        providers: [supabase_service_1.SupabaseService],
-        controllers: [supabase_controller_1.SupabaseController]
+        providers: [supabase_service_1.SupabaseService, sharp_service_1.SharpService],
+        controllers: [supabase_controller_1.SupabaseController, posts_controller_1.PostsController, comments_controller_1.CommentsController, likes_controller_1.LikesController, people_controller_1.PeopleController]
     })
 ], SupabaseModule);
 //# sourceMappingURL=supabase.module.js.map

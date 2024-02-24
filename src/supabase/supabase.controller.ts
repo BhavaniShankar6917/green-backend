@@ -9,8 +9,8 @@ import {
   Header,
 } from "@nestjs/common";
 import { Response, Request } from "express";
-import { SupabaseService } from "./supabase.service";
 import { SignupDto } from "./dtos/signup-dto";
+import { SupabaseService } from "./supabase.service";
 
 @Controller("supabase")
 export class SupabaseController {
